@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+opencv-python = "==4.1.0.25 "
+numpy = "==1.14.5"
+scikit-image = "==0.15.0"
+tqdm = "==4.32.1 "
+pyexr = "==0.3.6"
+matplotlib = "==3.0.3"
+tensorpack = {git = "https://github.com/tensorpack/tensorpack.git",ref = "f947192ad2a0922bccbc5b96aac9dd3d4418b48a"}
+lmdb = "==0.94"
+grpcio = "==1.20.1"
+imageio = "*"
+python-prctl = "==1.7"
+sklearn = "*"
+tensorboard = "==1.14.0"
+tensorflow-gpu = "==1.14.0"
+
+[requires]
+python_version = "3.6"
+
+[dev-packages]
+mypy = "*"
+black = "*"
+isort = "*"
+rope = "*"
+
+[pipenv]
+allow_prereleases = true

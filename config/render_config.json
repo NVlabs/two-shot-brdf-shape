@@ -1,0 +1,20 @@
+{
+    "field_of_view": 60,
+    "camera_position": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "distance_to_zero": 0.7,
+    "light_position": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "light_color": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "light_intensity_lumen": 45
+}
