@@ -3,11 +3,11 @@
 ### [Project Page](https://markboss.me/publication/cvpr20-two-shot-brdf/) | [Video](https://www.youtube.com/watch?v=CyC6PutoJO8) | [Paper](https://arxiv.org/abs/2004.00403) | [Data](https://drive.google.com/file/d/14mou3Va65deimPYE5GtFdK8OS3I0BSzq/view?usp=sharing)
 
 Tensorflow implementation using [Tensorpack](https://github.com/tensorpack/tensorpack) for predicting the shape, illumination and BRDF of an object using two handheld images.
-<br>
-[Two-shot Spatially-varying BRDF and Shape Estimation](https://markboss.me/publication/cvpr20-two-shot-brdf/)
-[Mark Boss](https://markboss.me)<sup>1</sup>, [Varun Jampani](https://varunjampani.github.io)<sup>2</sup>, [Kihwan Kim](http://kihwan23.com)<sup>2</sup>, [Hendrik P. A. Lensch](https://uni-tuebingen.de/en/faculties/faculty-of-science/departments/computer-science/lehrstuehle/computergrafik/computer-graphics/staff/prof-dr-ing-hendrik-lensch/)<sup>1</sup>, [Jan Kautz](http://jankautz.com)<sup>2</sup>
+<br><br>
+[Two-shot Spatially-varying BRDF and Shape Estimation](https://markboss.me/publication/cvpr20-two-shot-brdf/)<br>
+[Mark Boss](https://markboss.me)<sup>1</sup>, [Varun Jampani](https://varunjampani.github.io)<sup>2</sup>, [Kihwan Kim](http://kihwan23.com)<sup>2</sup>, [Hendrik P. A. Lensch](https://uni-tuebingen.de/en/faculties/faculty-of-science/departments/computer-science/lehrstuehle/computergrafik/computer-graphics/staff/prof-dr-ing-hendrik-lensch/)<sup>1</sup>, [Jan Kautz](http://jankautz.com)<sup>2</sup><br>
 <sup>1</sup>University of Tübingen, <sup>2</sup>NVIDIA 
-<br>
+<br><br>
 ![](images/Pipeline.jpg)
 
 ## License
