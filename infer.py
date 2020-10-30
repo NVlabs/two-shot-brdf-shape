@@ -30,7 +30,7 @@ from models.illumination_network import InferenceModel as IllumNet
 from models.joint_network import InferenceModel as JointNet
 from models.shape_network import InferenceModel as ShapeNet
 from utils.config import ParameterNames, Stages
-from utils.dataflow_utils import linearTosRGB, save
+from utils.dataflow_utils import uncompressDepth, save
 import utils.sg_utils as sg
 from utils.common_layers import apply_mask
 from utils.rendering_layer import RenderingLayer
@@ -72,7 +72,7 @@ class Predictor:
         t0 = time.time()
 
         df = InferenceDataflow(data_path, self.step, isSrgb, isLdr)
-        df = PrintData(df)
+        df = PrintData(df, max_list=7, max_depth=7)
         df.reset_state()  # Needed to setup dataflow
         for dp in tqdm(df):
             path, dp = dp
@@ -99,7 +99,11 @@ class Predictor:
                 fname = fileName
             filePath = os.path.join(save_path, fname)
             res = outputs[i][0]
-            print(f"Saving {res.shape} as {filePath}")
+            if fileName == ParameterNames.DEPTH_PRED.value:
+                res = uncompressDepth(res)
+            print(
+                f"Saving {res.shape} as {filePath} - Range {res.min()} to {res.max()}"
+            )
             save(res, filePath)
 
     def __exit__(self, exception_type, exception_value, tb):
@@ -233,21 +237,25 @@ def stepRender(data_path, step):
 
 
 def shapeInference(data_path, weights, isSrgb: bool, isLdr: bool):
+    print("\n\tPerforming Shape Inference...\n")
     stepInference(data_path, ShapeNet(), InferenceStage.SHAPE, weights, isSrgb, isLdr)
 
 
 def illuminationInference(data_path, weights, isSrgb: bool, isLdr: bool):
+    print("\n\tPerforming Illumination Inference...\n")
     stepInference(
         data_path, IllumNet(), InferenceStage.ILLUMINATION, weights, isSrgb, isLdr
     )
 
 
 def brdfInference(data_path, weights, isSrgb: bool, isLdr: bool):
+    print("\n\tPerforming BRDF Inference...\n")
     stepInference(data_path, BrdfNet(), InferenceStage.BRDF, weights, isSrgb, isLdr)
     stepRender(data_path, InferenceStage.INITIAL_RENDERING)
 
 
 def jointInference(data_path, weights, isSrgb: bool, isLdr: bool):
+    print("\n\tPerforming Refinement Inference...\n")
     stepInference(data_path, JointNet(), InferenceStage.JOINT, weights, isSrgb, isLdr)
     stepRender(data_path, InferenceStage.FINAL_RENDERING)
 
@@ -284,7 +292,10 @@ def main():
         help="Path to the illumination network weights.",
     )
     parser.add_argument(
-        "-b", "--brdf_weights", required=True, help="Path to the brdf network weights.",
+        "-b",
+        "--brdf_weights",
+        required=True,
+        help="Path to the brdf network weights.",
     )
     parser.add_argument(
         "-j",

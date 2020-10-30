@@ -21,7 +21,12 @@ from tensorpack import *
 from tensorpack.dataflow import BatchData, PrefetchDataZMQ, ProxyDataFlow, RNGDataFlow
 
 from utils.config import ParameterNames, Stages
-from utils.dataflow_utils import compute_auto_exp, read_image, sRGBToLinear
+from utils.dataflow_utils import (
+    compute_auto_exp,
+    read_image,
+    sRGBToLinear,
+    compressDepth,
+)
 
 
 class ConfigurableDataflow(RNGDataFlow):
@@ -92,7 +97,13 @@ class ConfigurableDataflow(RNGDataFlow):
             or parameter == ParameterNames.ROUGHNESS
             or parameter == ParameterNames.ROUGHNESS_PRED
         ):  # Grayscale
-            return read_image(full_path, True)
+            img = read_image(full_path, True)
+            if (
+                parameter == ParameterNames.DEPTH
+                or parameter == ParameterNames.DEPTH_PRED
+            ):
+                img = compressDepth(img)
+            return img
         elif parameter == ParameterNames.MASK:  # Mask apply erosion etc.
             mask = read_image(full_path, True)
             mask[mask < 0.5] = 0.0
