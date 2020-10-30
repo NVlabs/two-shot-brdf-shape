@@ -1,0 +1,25 @@
+# To run: conda env create -f environment.yml
+name: twoshotbrdf
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6
+  - pip
+  - cudatoolkit=10.0
+  - tensorflow-gpu==1.14
+  - tensorboard==1.14
+  - pip:
+      - numpy==1.16.4
+      - matplotlib
+      - pyexr==0.3.8
+      - opencv-python==4.4.0.42
+      - "--editable=git+https://github.com/tensorpack/tensorpack.git@f947192ad2a0922bccbc5b96aac9dd3d4418b48a#egg=tensorpack"
+      - lmdb
+      - imageio
+      - sklearn
+      - scikit-image
+      - tqdm==4.49.0
+      - python-prctl==1.7
+      - flake8
+      - black
+      - isort

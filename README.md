@@ -21,8 +21,7 @@ This work is made available under the [NVIDIA Source Code License](LICENSE).
 This project uses [Pipenv](https://pipenv-fork.readthedocs.io/en/latest/) for dependency management. 
 
 ```
-pipenv install
-pipenv shell
+conda env create -f environment.yml
 ```
 
 You are now in the correct virtual environment shell. 
