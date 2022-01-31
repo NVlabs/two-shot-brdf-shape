@@ -147,14 +147,20 @@ class BrdfNetwork(BaseNetwork):
         ]
 
     def network_architecture(self, *args):
-        cam1, cam2, mask, normal, depth = args
+        cam1, cam2, mask, normal, depth, sgs = args
         layers_needed = int(log2(self.imgSize) - 2)  # Do not go down to 1x1 but 4x4
 
         with argscope([tf.layers.conv2d, tf.layers.conv2d_transpose], padding="same"):
             with tf.variable_scope("brdf_net"):
                 with tf.variable_scope("prepare"):
+                    onesTensor = tf.ones_like(mask[:, :, :, 0:1])
+                    sgs_expanded = tf.reshape(
+                        sgs, [-1, 1, 1, sgs.shape[1] * sgs.shape[2]]
+                    )
+                    sgs_to_add = onesTensor * sgs_expanded
+
                     brdfInput = tf.concat(
-                        [cam1, cam2, normal, depth, mask[:, :, :, 0:1]],
+                        [cam1, cam2, normal, depth, sgs_to_add, mask[:, :, :, 0:1]],
                         axis=-1,
                         name="input_stack",
                     )
@@ -308,7 +314,7 @@ class BrdfNetwork(BaseNetwork):
             batch_size = tf.shape(cam1)[0]
 
         diffuse, specular, roughness = self.network_architecture(
-            in1, in2, m3, normal, depth
+            in1, in2, m3, normal, depth, sgs
         )
 
         rendered = self.render(diffuse, specular, roughness, normal, depth, sgs, mask3)
@@ -410,7 +416,7 @@ class InferenceModel(BrdfNetwork):
             mask3 = tf.tile(mask, repeat)
 
         diffuse, specular, roughness = self.network_architecture(
-            self, input1, input2, mask3, normal, depth
+            input1, input2, mask3, normal, depth, sgs
         )
 
 
